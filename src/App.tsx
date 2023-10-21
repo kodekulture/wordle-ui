@@ -1,11 +1,16 @@
 import React from 'react'
-import Authentication from './components/Authentication'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Authentication from './components/pages/Authentication'
+import Home from './components/pages/Home'
 
 function App () {
   return (
-    <div>
-      <Authentication />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" Component={Authentication} />
+        <Route path="/" Component={Home} />
+      </Routes>
+    </Router>
   )
 }
 

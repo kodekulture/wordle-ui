@@ -1,5 +1,3 @@
-// AuthenticationForm.tsx
-
 import React, { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -9,7 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
-const AuthenticationForm: React.FC = () => {
+const AuthenticationPage: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [errors, setErrors] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -18,7 +16,7 @@ const AuthenticationForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
+    setFormData({ ...formData, [name]: value.trim().replaceAll(' ', '') })
   }
 
   const handleBlur = () => {
@@ -63,7 +61,8 @@ const AuthenticationForm: React.FC = () => {
           <TextField
             name="username"
             fullWidth
-            variant="filled"
+            variant="outlined"
+            label="Username"
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
@@ -74,7 +73,8 @@ const AuthenticationForm: React.FC = () => {
           <TextField
             name="password"
             fullWidth
-            variant="filled"
+            variant="outlined"
+            label="Password"
             placeholder="Password"
             type={showPassword ? 'text' : 'password'}
             value={formData.password}
@@ -97,7 +97,7 @@ const AuthenticationForm: React.FC = () => {
             fullWidth
             variant="contained"
             color="primary"
-            style={{ marginTop: 32, borderRadius: 5, backgroundColor: 'black', fontWeight: 'bold', color: '#fff', padding: '8px 16px' }}
+            style={{ marginTop: 32, borderRadius: 5, backgroundColor: 'black', fontWeight: 'bold', color: '#fff', padding: '10px 16px' }}
             disabled={isSubmitDisabled || loading}
           >
             {loading ? 'Loading...' : 'Login'}
@@ -108,4 +108,4 @@ const AuthenticationForm: React.FC = () => {
   )
 }
 
-export default AuthenticationForm
+export default AuthenticationPage

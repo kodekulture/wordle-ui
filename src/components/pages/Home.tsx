@@ -1,8 +1,10 @@
-// Home.tsx
-
 import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
+import GamepadIcon from '@mui/icons-material/Gamepad'
 import Button from '@mui/material/Button'
+
+import DefaultPaper from '../container/DefaultPaper'
+import DefaultContainer from '../container/DefaultContainer'
 
 const Home: React.FC = () => {
   const [roomId, setRoomId] = useState('')
@@ -47,12 +49,15 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)' }}>
-      <div style={{ background: 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', padding: 16, borderRadius: 8, boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.6)', width: 500 }}>
+    <DefaultPaper>
+      <DefaultContainer>
+        <div style={{ textAlign: 'center', marginBottom: 16 }}>
+          <GamepadIcon style={{ padding: 16, fontSize: '48px', color: 'black', marginRight: 16, verticalAlign: 'middle', marginBottom: 1 }}/>
+        </div>
         <TextField
           fullWidth
           variant="outlined"
-          style={{ marginBottom: 16 }}
+          style={{ marginTop: 16 }}
           label="Room ID"
           placeholder="Room ID"
           value={roomId}
@@ -77,8 +82,8 @@ const Home: React.FC = () => {
         >
           {isCreating ? 'Creating...' : 'Create Room'}
         </Button>
-      </div>
-    </div>
+        </DefaultContainer>
+    </DefaultPaper>
   )
 }
 

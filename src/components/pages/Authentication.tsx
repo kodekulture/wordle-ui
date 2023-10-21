@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import { TextField, FormHelperText } from '@material-ui/core'
 import LoginIcon from '@mui/icons-material/Login'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
-const AuthenticationPage: React.FC = () => {
+import DefaultPaper from '../container/DefaultPaper'
+import DefaultContainer from '../container/DefaultContainer'
+import DefaultButton from '../container/DefaultButton'
+
+const Authentication: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [errors, setErrors] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -52,12 +55,12 @@ const AuthenticationPage: React.FC = () => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)' }}>
-      <div style={{ background: 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', padding: 16, borderRadius: 8, boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.6)', width: 300 }}>
-          <h2 style={{ color: '#fff', textAlign: 'center' }}>
-            <LoginIcon style={{ fontSize: '48px', color: 'black', marginRight: 16, verticalAlign: 'middle', marginBottom: 1 }}/>
-          </h2>
-          <form onSubmit={handleSubmit}>
+      <DefaultPaper>
+      <DefaultContainer>
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+            <LoginIcon style={{ padding: 16, fontSize: '48px', color: 'black', marginRight: 16, verticalAlign: 'middle', marginBottom: 1 }}/>
+          </div>
+          <form>
           <TextField
             name="username"
             fullWidth
@@ -69,7 +72,7 @@ const AuthenticationPage: React.FC = () => {
             onBlur={handleBlur}
             style={{ marginTop: 16 }}
           />
-          <div style={{ color: 'red' }}>{errors.username}</div>
+          <FormHelperText style={{ color: 'red' }}>{errors.username}</FormHelperText>
           <TextField
             name="password"
             fullWidth
@@ -91,21 +94,16 @@ const AuthenticationPage: React.FC = () => {
               )
             }}
           />
-          <div style={{ color: 'red' }}>{errors.password}</div>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={{ marginTop: 32, borderRadius: 5, backgroundColor: 'black', fontWeight: 'bold', color: '#fff', padding: '10px 16px' }}
-            disabled={isSubmitDisabled || loading}
-          >
-            {loading ? 'Loading...' : 'Login'}
-          </Button>
+          <FormHelperText style={{ color: 'red' }}>{errors.password}</FormHelperText>
+          <DefaultButton
+            text={loading ? 'Loading...' : 'Login'}
+            disabled={isSubmitDisabled}
+            onClick={handleSubmit}
+          />
         </form>
-      </div>
-    </div>
+      </DefaultContainer>
+    </DefaultPaper>
   )
 }
 
-export default AuthenticationPage
+export default Authentication

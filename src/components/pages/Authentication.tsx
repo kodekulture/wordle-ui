@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { TextField, FormHelperText } from '@material-ui/core'
 import LoginIcon from '@mui/icons-material/Login'
 import IconButton from '@material-ui/core/IconButton'
@@ -6,6 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
+import { LoginHandler } from '../../handler/Login'
 import DefaultPaper from '../container/DefaultPaper'
 import DefaultContainer from '../container/DefaultContainer'
 import DefaultButton from '../container/DefaultButton'
@@ -44,14 +46,13 @@ const Authentication: React.FC = () => {
     e.preventDefault()
     setLoading(true)
 
-    // Simulate a submit action (replace with your actual submit logic)
-    setTimeout(() => {
-      // On success, you can navigate to a different page or display a success message
-      // On error, set an error message to display below the submit button
-      setLoading(false)
-      // Replace the alert with a Snackbar or similar UI component
-      alert('Authentication success or error message')
-    }, 2000)
+    const response = await LoginHandler(formData)
+    if (response.success) {
+      <Navigate to="/" />
+    } else {
+      alert(response.message)
+    }
+    setLoading(false)
   }
 
   return (

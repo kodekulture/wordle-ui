@@ -13,11 +13,11 @@ interface RowProps {
 const colorByState = (state: number) => {
   switch (state) {
     case 3:
-      return 'green'
+      return '#006E33'
     case 2:
-      return 'yellow'
+      return '#F6BE00'
     case 1:
-      return 'red'
+      return '#AB2328'
     default:
       return 'gray'
   }
@@ -25,18 +25,27 @@ const colorByState = (state: number) => {
 
 const Row: React.FC<RowProps> = ({ word }) => {
   return (
-    <Grid container >
+    <Grid container style={{ display: 'flex', justifyContent: 'center' }}>
       {word.map((cell, index) => (
         <Grid key={index}>
-          <Paper style={{
-            width: '50px',
-            margin: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: colorByState(cell.state)
-          }}>
-            <Typography color='white' variant="h4">{cell.letter}</Typography>
+          <Paper
+            elevation={5}
+            style={{
+              minWidth: '65px',
+              height: '65px',
+              margin: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: colorByState(cell.state),
+              opacity: 0.8
+            }}>
+            <Typography
+              variant="h3"
+              fontWeight={'bold'}
+              color={'white'}>
+                {cell.letter.toUpperCase()}
+            </Typography>
           </Paper>
         </Grid>
       ))}
@@ -47,9 +56,10 @@ const Row: React.FC<RowProps> = ({ word }) => {
 interface GridProps {
   gridData: Cell[][]
 }
+
 const GameGrid: React.FC<GridProps> = ({ gridData }) => {
   return (
-    <Grid style={{ borderColor: 'gray', borderStyle: 'solid', borderRadius: 8, marginBottom: 32, padding: 5 }}>
+    <Grid style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 20, minWidth: '400px' }}>
       {gridData.map((word, index) => (
         <Row key={index} word={word} />
       ))}

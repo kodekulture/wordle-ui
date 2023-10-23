@@ -3,47 +3,77 @@ import {
   TextField,
   List,
   ListItem,
-  ListItemText
+  Container
 } from '@mui/material'
 
 import DefaultContainer from '../container/DefaultContainer'
 import DefaultButton from '../container/DefaultButton'
+import Message from './Message'
 import './scroll.css'
 
 const ChatComponent: React.FC = () => {
-  const [messages, setMessages] = useState<string[]>([])
-  const [newMessage, setNewMessage] = useState<string>('')
+  interface Message {
+    message: string
+    sender: string
+  }
+
+  const [messages, setMessages] = useState<Message[]>([
+    { message: 'Hello', sender: 'You' },
+    { message: 'How are you?', sender: '' },
+    { message: 'I am good, thanks!', sender: 'You' },
+    { message: 'Evans Has joined?', sender: '' }
+  ])
+  const [newMessage, setNewMessage] = useState<string>()
 
   const handleSendMessage = () => {
+    if (newMessage === undefined) {
+      return
+    }
+
     if (newMessage.trim() !== '') {
-      setMessages([...messages, newMessage])
+      setMessages([...messages, { message: newMessage, sender: 'You' }])
       setNewMessage('')
     }
   }
 
   return (
     <DefaultContainer>
-      <div
+      <Container
         style={{
           flex: 1,
           border: '1px solid #ccc',
-          padding: '8px',
           overflowY: 'scroll',
-          width: '350px',
-          height: '400px'
+          width: '400px',
+          height: '400px',
+          padding: '2px',
+          borderRadius: '5px'
         }}
       >
-        <List style={{ minHeight: '400px' }}>
+        <List style={{
+          minHeight: '400px',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
           {messages.map((message, index) => (
             <ListItem key={index}>
-              <ListItemText primary={message} />
+                <Message message={message.message} sender={message.sender} />
             </ListItem>
           ))}
         </List>
-      </div>
-      <div style={{ marginTop: '16px', flexDirection: 'column', display: 'flex', padding: '8px' }}>
+      </Container>
+
+      {/* Typing & Sending message  */}
+
+      <Container style={{
+        marginTop: '16px',
+        flexDirection: 'column',
+        display: 'flex',
+        padding: '8px'
+      }}>
         <TextField
           fullWidth
+          id='typing-input'
           placeholder='Enter your message'
           variant='outlined'
           value={newMessage}
@@ -51,12 +81,11 @@ const ChatComponent: React.FC = () => {
         />
         <DefaultButton
           text='Send Message'
-          disabled={newMessage.trim() === ''}
+          disabled={newMessage?.trim() === ''}
           onClick={handleSendMessage}
         />
 
-      </div>
-
+      </Container>
     </DefaultContainer>
   )
 }

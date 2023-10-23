@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import TextField from '@mui/material/TextField'
+// import { Navigate } from 'react-router-dom'
+import { TextField, FormHelperText } from '@mui/material'
 import GamepadIcon from '@mui/icons-material/Gamepad'
 import Button from '@mui/material/Button'
 
+import { CreateGameHandler } from '../../handler/Create'
+import { JoinGameHandler } from '../../handler/Join'
+
 import DefaultPaper from '../container/DefaultPaper'
 import DefaultContainer from '../container/DefaultContainer'
+import IsAuthenticated from '../helper/IsAuthenticated'
 
 const Home: React.FC = () => {
+  // Authentication
+  if (!IsAuthenticated()) {
+    window.location.href = '/login'
+  }
+
   const [roomId, setRoomId] = useState('')
   const [joinError, setJoinError] = useState('')
+  const [createError, setCreateError] = useState('')
   const [isJoining, setIsJoining] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
 
@@ -30,22 +41,28 @@ const Home: React.FC = () => {
       return
     }
 
-    setTimeout(() => {
-      setIsJoining(false)
+    const response = await JoinGameHandler({ id: roomId })
+    if (response.success) {
+      window.location.href = `/game/${response.token}`
+    } else {
+      setCreateError(response.message)
+    }
 
-      alert('Join success or error message')
-    }, 2000)
+    setIsJoining(false)
   }
 
   const handleCreateClick = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsCreating(true)
 
-    setTimeout(() => {
-      setIsCreating(false)
+    const response = await CreateGameHandler()
+    if (response.success) {
+      setRoomId(response.id)
+    } else {
+      setCreateError(response.message)
+    }
 
-      alert('Create success or error message')
-    }, 2000)
+    setIsCreating(false)
   }
 
   return (
@@ -58,8 +75,7 @@ const Home: React.FC = () => {
           fullWidth
           variant="outlined"
           style={{ marginTop: 16 }}
-          label="Room ID"
-          placeholder="Room ID"
+          placeholder="Paste room-id here"
           value={roomId}
           onChange={handleRoomIdChange}
         />
@@ -72,7 +88,7 @@ const Home: React.FC = () => {
         >
           {isJoining ? 'Joining...' : 'Join Room'}
         </Button>
-        <div style={{ color: 'red' }}>{joinError}</div>
+        <FormHelperText style={{ color: 'red' }}>{joinError}</FormHelperText>
         <Button
           variant="contained"
           color="primary"
@@ -82,6 +98,7 @@ const Home: React.FC = () => {
         >
           {isCreating ? 'Creating...' : 'Create Room'}
         </Button>
+        <FormHelperText style={{ color: 'red' }}>{createError}</FormHelperText>
         </DefaultContainer>
     </DefaultPaper>
   )

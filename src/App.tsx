@@ -4,20 +4,15 @@ import Authentication from './components/pages/Authentication'
 import Game from './components/pages/Game'
 import Home from './components/pages/Home'
 
-const DefaultPage: React.FC = () => {
-  return (
-    <Navigate to="/" />
-  )
-}
-
 function App () {
   return (
     <Router>
       <Routes>
-        <Route path="/login" Component={Authentication} />
-        <Route path="/play" Component={Game} />
-        <Route path="/" Component={Home} />
-        <Route path="/*" Component={DefaultPage} />
+        <Route path="/login/" Component={Authentication} />
+        <Route path="/game/:token/" Component={Game} />
+        <Route path="/home/" Component={Home} />
+
+        <Route path="/*" Component={(): React.ReactElement => <Navigate to="/home" />} />
       </Routes>
     </Router>
   )

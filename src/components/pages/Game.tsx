@@ -21,7 +21,6 @@ const Game: React.FC = () => {
   }
 
   // TODO: Connect to websocket channel using `token`, On error redirect to home
-  console.log(token)
 
   return (
     <DefaultPaper>

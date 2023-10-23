@@ -11,8 +11,14 @@ import { LoginHandler } from '../../handler/Login'
 import DefaultPaper from '../container/DefaultPaper'
 import DefaultContainer from '../container/DefaultContainer'
 import DefaultButton from '../container/DefaultButton'
+import IsAuthenticated from '../helper/IsAuthenticated'
 
 const Authentication: React.FC = () => {
+  // Authentication
+  if (IsAuthenticated()) {
+    window.location.href = '/home'
+  }
+
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [errors, setErrors] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)

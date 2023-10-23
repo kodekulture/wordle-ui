@@ -1,11 +1,10 @@
 const IsAuthenticated = () => {
   const at = localStorage.getItem('accessToken')
-  const rt = localStorage.getItem('refreshToken')
 
-  if (at === undefined || rt === undefined || at === null || rt === null) {
+  if (at === undefined || at === null) {
     return false
   }
-  if (at === '' || rt === '') {
+  if (at === '') {
     return false
   }
   return true

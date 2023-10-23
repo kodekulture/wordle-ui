@@ -45,7 +45,7 @@ const Home: React.FC = () => {
     if (response.success) {
       window.location.href = `/game/${response.token}`
     } else {
-      setCreateError(response.message)
+      setJoinError(response.message)
     }
 
     setIsJoining(false)

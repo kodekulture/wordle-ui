@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react'
-// import { Navigate } from 'react-router-dom'
 import { TextField, FormHelperText } from '@mui/material'
 import GamepadIcon from '@mui/icons-material/Gamepad'
 import Button from '@mui/material/Button'
 
-import { CreateGameHandler } from '../../handler/Create'
-import { JoinGameHandler } from '../../handler/Join'
+import { useCreateGame } from '../../handler/Create'
+import { useJoinGame } from '../../handler/Join'
 
 import DefaultPaper from '../container/DefaultPaper'
 import DefaultContainer from '../container/DefaultContainer'
-import IsAuthenticated from '../helper/IsAuthenticated'
+import withAuthentication from '../../global/AuthWrapper'
 
 const Home: React.FC = () => {
-  // Authentication
-  if (!IsAuthenticated()) {
-    window.location.href = '/login'
-  }
-
   const [roomId, setRoomId] = useState('')
   const [joinError, setJoinError] = useState('')
   const [createError, setCreateError] = useState('')
@@ -41,7 +35,7 @@ const Home: React.FC = () => {
       return
     }
 
-    const response = await JoinGameHandler({ id: roomId })
+    const response = await useJoinGame({ id: roomId })
     if (response.success) {
       window.location.href = `/game/${response.token}`
     } else {
@@ -55,7 +49,7 @@ const Home: React.FC = () => {
     e.preventDefault()
     setIsCreating(true)
 
-    const response = await CreateGameHandler()
+    const response = await useCreateGame()
     if (response.success) {
       setRoomId(response.id)
     } else {
@@ -104,4 +98,4 @@ const Home: React.FC = () => {
   )
 }
 
-export default Home
+export default withAuthentication(Home, true)

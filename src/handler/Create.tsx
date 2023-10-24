@@ -7,7 +7,7 @@ interface CreateGameResponse {
   id: string
 }
 
-const CreateGameHandler = async (): Promise<CreateGameResponse> => {
+const useCreateGame = async (): Promise<CreateGameResponse> => {
   try {
     const response = await fetch(`${Host}/room`, {
       method: 'POST',
@@ -29,4 +29,4 @@ const CreateGameHandler = async (): Promise<CreateGameResponse> => {
   }
 }
 
-export { CreateGameHandler }
+export { useCreateGame }

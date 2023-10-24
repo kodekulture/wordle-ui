@@ -11,7 +11,7 @@ interface LoginResponse {
   message: string
 }
 
-const LoginHandler = async ({ username, password }: LoginProps): Promise<LoginResponse> => {
+const useLogin = async ({ username, password }: LoginProps): Promise<LoginResponse> => {
   try {
     const response = await fetch(`${Host}/login`, {
       method: 'POST',
@@ -40,4 +40,4 @@ const LoginHandler = async ({ username, password }: LoginProps): Promise<LoginRe
   }
 }
 
-export { LoginHandler, type LoginProps }
+export { useLogin }

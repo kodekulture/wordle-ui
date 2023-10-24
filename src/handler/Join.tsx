@@ -11,7 +11,7 @@ interface JoinGameResponse {
   token: string
 }
 
-const JoinGameHandler = async ({ id }: JoinGameProps): Promise<JoinGameResponse> => {
+const useJoinGame = async ({ id }: JoinGameProps): Promise<JoinGameResponse> => {
   try {
     const response = await fetch(`${Host}/join/room/${id}`, {
       method: 'GET',
@@ -34,4 +34,4 @@ const JoinGameHandler = async ({ id }: JoinGameProps): Promise<JoinGameResponse>
   }
 }
 
-export { JoinGameHandler }
+export { useJoinGame }

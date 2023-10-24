@@ -7,18 +7,13 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
-import { LoginHandler } from '../../handler/Login'
+import { useLogin } from '../../handler/Login'
 import DefaultPaper from '../container/DefaultPaper'
 import DefaultContainer from '../container/DefaultContainer'
 import DefaultButton from '../container/DefaultButton'
-import IsAuthenticated from '../helper/IsAuthenticated'
+import withAuthentication from '../../global/AuthWrapper'
 
 const Authentication: React.FC = () => {
-  // Authentication
-  if (IsAuthenticated()) {
-    window.location.href = '/home'
-  }
-
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [errors, setErrors] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -52,7 +47,7 @@ const Authentication: React.FC = () => {
     e.preventDefault()
     setLoading(true)
 
-    const response = await LoginHandler(formData)
+    const response = await useLogin(formData)
     if (response.success) {
       <Navigate to="/" />
     } else {
@@ -113,4 +108,4 @@ const Authentication: React.FC = () => {
   )
 }
 
-export default Authentication
+export default withAuthentication(Authentication, false)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   TextField,
   List,
@@ -9,9 +9,12 @@ import {
 import DefaultContainer from '../container/DefaultContainer'
 import DefaultButton from '../container/DefaultButton'
 import Message from './Message'
-import './scroll.css'
 
-const ChatComponent: React.FC = () => {
+interface ChatProps {
+  handleSendMessage: (message: string) => void
+}
+
+const ChatComponent = ({ handleSendMessage }: ChatProps) => {
   interface Message {
     message: string
     sender: string
@@ -25,15 +28,24 @@ const ChatComponent: React.FC = () => {
   ])
   const [newMessage, setNewMessage] = useState<string>()
 
-  const handleSendMessage = () => {
-    if (newMessage === undefined) {
+  useEffect(() => {
+    if (messages === null || messages.length === 0) {
+      return
+    }
+    setMessages([...messages, { message: String(newMessage), sender: 'You' }])
+  })
+
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewMessage(e.target.value.trim())
+  }
+
+  const handleSendClick = () => {
+    if (newMessage === '') {
       return
     }
 
-    if (newMessage.trim() !== '') {
-      setMessages([...messages, { message: newMessage, sender: 'You' }])
-      setNewMessage('')
-    }
+    handleSendMessage(String(newMessage))
+    setNewMessage('')
   }
 
   return (
@@ -77,12 +89,12 @@ const ChatComponent: React.FC = () => {
           placeholder='Enter your message'
           variant='outlined'
           value={newMessage}
-          onChange={(e) => { setNewMessage(e.target.value) }}
+          onChange={handleMessageChange}
         />
         <DefaultButton
           text='Send Message'
           disabled={newMessage?.trim() === ''}
-          onClick={handleSendMessage}
+          onClick={handleSendClick}
         />
 
       </Container>

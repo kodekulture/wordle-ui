@@ -19,6 +19,7 @@
         "semi": ["error", "never"],
         "quotes": ["error", "single"],
         "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-misused-promises": "off"
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-throw-literal": "off"
     }
 }

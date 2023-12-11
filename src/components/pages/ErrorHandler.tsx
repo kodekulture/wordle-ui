@@ -1,15 +1,16 @@
 import React from 'react'
 import { Navigate, useRouteError } from 'react-router-dom'
+import NotFound from '../static/NotFound'
 import type { ErrorResponse } from 'react-router-dom'
 
 const ErrorHandler: React.FC = () => {
-  const { data } = useRouteError() as ErrorResponse
+  const { status } = useRouteError() as ErrorResponse
 
-  if (data === 'unauthenticated') {
-    return <Navigate to='/login'/>
+  if (status === 401) {
+    return <Navigate to="/login"/>
+  } else {
+    return <NotFound/>
   }
-
-  return (<></>)
 }
 
 export default ErrorHandler

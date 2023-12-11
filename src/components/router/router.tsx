@@ -1,26 +1,34 @@
 import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import AuthenticationPage from '../pages/Authentication'
-import { Home } from '@material-ui/icons'
-import isAuthenticated from './PrivateRoute'
 import ErrorHandler from '../pages/ErrorHandler'
+import Home from '../pages/Home'
+import type { LoaderFunction } from 'react-router-dom'
+import isAuthenticated from '../../concern/Authentication'
+
+const authLoader: LoaderFunction<string> = async () => {
+  if (!isAuthenticated()) {
+    throw new Response('UnAuthenticated User', { status: 401 })
+  }
+
+  return ({ status: 200 })
+}
 
 const router = createBrowserRouter([
   {
     path: '/login',
-    element: <AuthenticationPage/>
+    element: <AuthenticationPage />
   },
   {
     path: '/',
-    element: <Home/>,
-    loader: async () => {
-      if (!isAuthenticated()) {
-        throw new Response('unauthenticated', { status: 400 })
+    loader: authLoader,
+    errorElement: <ErrorHandler/>,
+    children: [
+      {
+        path: 'home',
+        element: <Home/>
       }
-
-      return ({ status: true })
-    },
-    errorElement: <ErrorHandler/>
+    ]
   }
 ])
 

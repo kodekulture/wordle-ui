@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import { server } from '../../network/Url'
 
 const AuthenticationPage: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', password: '' })
@@ -41,14 +42,21 @@ const AuthenticationPage: React.FC = () => {
     e.preventDefault()
     setLoading(true)
 
-    // Simulate a submit action (replace with your actual submit logic)
-    setTimeout(() => {
-      // On success, you can navigate to a different page or display a success message
-      // On error, set an error message to display below the submit button
-      setLoading(false)
-      // Replace the alert with a Snackbar or similar UI component
-      alert('Authentication success or error message')
-    }, 2000)
+    const formUserData = {
+      username: formData.username,
+      password: formData.password
+    }
+
+    try {
+      const { data } = await server.post('/login', formUserData)
+
+      localStorage.setItem('accessToken', data['access_token'])
+      console.log('success')
+    } catch (err) {
+      console.log(err)
+    }
+
+    setLoading(false)
   }
 
   return (

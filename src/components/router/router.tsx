@@ -6,6 +6,7 @@ import Home from '../pages/Home'
 import type { LoaderFunction } from 'react-router-dom'
 import isAuthenticated from '../../concern/Authentication'
 
+// TODO: maybe create a file structure for all loaders
 const authLoader: LoaderFunction<string> = async () => {
   if (!isAuthenticated()) {
     throw new Response('UnAuthenticated User', { status: 401 })
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     loader: authLoader,
     errorElement: <ErrorHandler/>,
     children: [
+      // Here all the routes that require authentication
       {
         path: 'home',
         element: <Home/>

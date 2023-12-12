@@ -1,16 +1,10 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Authentication from './components/pages/Authentication'
-import Home from './components/pages/Home'
+import { RouterProvider } from 'react-router-dom'
+import router from './components/router/router'
 
 function App () {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" Component={Authentication} />
-        <Route path="/" Component={Home} />
-      </Routes>
-    </Router>
+    <RouterProvider router={router}/>
   )
 }
 

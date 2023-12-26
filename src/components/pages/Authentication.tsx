@@ -18,9 +18,6 @@ const AuthenticationPage: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value.trim().replaceAll(' ', '') })
-  }
-
-  const handleBlur = () => {
     setErrors({
       username: formData.username !== '' && formData.username.length < 3 ? 'Username must be at least 3 characters' : '',
       password: formData.password !== '' && formData.password.length < 8 ? 'Password must be at least 8 characters' : ''
@@ -29,6 +26,7 @@ const AuthenticationPage: React.FC = () => {
 
   useEffect(() => {
     if (formData.username === '' || formData.password === '' || Object.values(errors).some((error) => error !== '')) {
+      setIsSubmitDisabled(true)
       return
     }
     setIsSubmitDisabled(false)
@@ -74,7 +72,6 @@ const AuthenticationPage: React.FC = () => {
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
-            onBlur={handleBlur}
             style={{ marginTop: 16 }}
           />
           <div style={{ color: 'red' }}>{errors.username}</div>
@@ -87,7 +84,6 @@ const AuthenticationPage: React.FC = () => {
             type={showPassword ? 'text' : 'password'}
             value={formData.password}
             onChange={handleChange}
-            onBlur={handleBlur}
             style={{ marginTop: 16 }}
             InputProps={{
               endAdornment: (

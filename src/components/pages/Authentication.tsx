@@ -7,8 +7,11 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import { server } from '../../network/Url'
+import { useErrorStore } from '../../hooks/stores'
+import { Alert } from '@mui/material'
 
 const AuthenticationPage: React.FC = () => {
+  const interfaceErrors = useErrorStore(state => state.errors)
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [errors, setErrors] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -62,6 +65,9 @@ const AuthenticationPage: React.FC = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)' }}>
       <div style={{ background: 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', padding: 16, borderRadius: 8, boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.6)', width: 300 }}>
+          <div>
+            {interfaceErrors?.map(err => <Alert key={err.id} severity='error'>{err.message}</Alert>)}
+          </div>
           <h2 style={{ color: '#fff', textAlign: 'center' }}>
             <LoginIcon style={{ fontSize: '48px', color: 'black', marginRight: 16, verticalAlign: 'middle', marginBottom: 1 }}/>
           </h2>

@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import { useErrorStore } from '../../hooks/stores'
 
 const Home: React.FC = () => {
+  const { clearErrors } = useErrorStore()
   const [roomId, setRoomId] = useState('')
   const [joinError, setJoinError] = useState('')
   const [isJoining, setIsJoining] = useState(false)
@@ -17,6 +19,10 @@ const Home: React.FC = () => {
   useEffect(() => {
     setJoinError('')
   }, [roomId])
+
+  useEffect(() => {
+    clearErrors()
+  }, [])
 
   const handleJoinClick = async (e: React.FormEvent) => {
     e.preventDefault()
